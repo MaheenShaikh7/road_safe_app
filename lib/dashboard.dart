@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_vision/flutter_vision.dart';
 
 import 'package:road_safe_app/utils/app_drawer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
-import 'package:tflite_v2/tflite_v2.dart';
+// import 'package:tflite_v2/tflite_v2.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -104,22 +107,77 @@ class _DashboardState extends State<Dashboard> {
 
   //YOLO_model_run
 
+  late FlutterVision vision;
+  int imageHeight = 1;
+  int imageWidth = 1;
+
+  late List<Map<String, dynamic>> yoloResults;
+
   @override
   void initState() {
     super.initState();
+    vision = FlutterVision();
     loadModel();
   }
 
   Future loadModel() async {
-    Tflite.close();
-    String? res = await Tflite.loadModel(
-      model: "assets/multi_detection/best_float32.tflite",
-      labels: "assets/multi_detection/labels.txt",
-      // useGpuDelegate: true,
-    );
+    await vision.loadYoloModel(
+        labels: 'assets/multi_detection/labels.txt',
+        modelPath: 'assets/multi_detection/best_float32.tflite',
+        modelVersion: "yolov8",
+        quantization: false,
+        numThreads: 1,
+        useGpu: false);
 
-    print('$res model loaded');
+    print('model loaded');
   }
+
+  Future yolov8(File imageFile) async {
+    Uint8List byte = await imageFile.readAsBytes();
+    final image = await decodeImageFromList(byte);
+    imageHeight = image.height;
+    imageWidth = image.width;
+
+    // final ui.Codec codec = await ui.instantiateImageCodec(byte);
+    // final ui.FrameInfo frameInfo = await codec.getNextFrame();
+
+    print(byte);
+    // print(frameInfo.image.height);
+    // print(frameInfo.image.width);
+
+    print(imageHeight);
+    print(imageWidth);
+
+    final result = await vision.yoloOnImage(
+        bytesList: byte,
+        imageHeight: imageHeight,
+        imageWidth: imageWidth,
+        iouThreshold: 0.8,
+        confThreshold: 0.4,
+        classThreshold: 0.5);
+
+    if (result.isNotEmpty) {
+      setState(() {
+        yoloResults = result;
+      });
+    }
+
+    print(result);
+    print("this is it");
+
+    // await vision.closeYoloModel();
+  }
+
+  // Future loadModel() async {
+  //   Tflite.close();
+  //   String? res = await Tflite.loadModel(
+  //     model: "assets/multi_detection/best_float32.tflite",
+  //     labels: "assets/multi_detection/labels.txt",
+  //     // useGpuDelegate: true,
+  //   );
+
+  //   print('$res model loaded');
+  // }
 
   // Future yolov8(File image) async {
   //   var recognitions = await Tflite.detectObjectOnImage(
@@ -140,35 +198,6 @@ class _DashboardState extends State<Dashboard> {
   //     print("No Object Detected");
   //   }
   // }
-
-  List<dynamic>? _recognitions;
-
-  Future predictImage(File image) async {
-    // await yolov8(image);
-    var recognitions = await Tflite.detectObjectOnImage(
-      path: image.path,
-      model: "YOLO",
-      threshold: 0.3,
-      imageMean: 0.0,
-      imageStd: 255.0,
-      numResultsPerClass: 2,
-    );
-
-    await Tflite.close();
-
-    setState(() {
-      _recognitions = recognitions;
-    });
-
-    if (_recognitions != null) {
-      print("Object Detected");
-      print("Recognitions Shape: ${_recognitions!.length}");
-      // print(
-      //     "First Recognition: ${_recognitions.isNotEmpty ? _recognitions[0] : null}");
-    } else {
-      print("No Object Detected");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -341,7 +370,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   onPressed: () {
                     if (selectedImage != null) {
-                      predictImage(selectedImage!);
+                      yolov8(selectedImage!);
                     }
 
                     print('raising complaint');
