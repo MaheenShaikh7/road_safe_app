@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:road_safe_app/dashboard.dart';
 import 'package:road_safe_app/sign_up_page.dart';
 // import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
+import 'config.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({super.key});
@@ -12,14 +15,39 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordControlle = TextEditingController();
-  // bool _isNotValid = false;
-  // late SharedPreferences prefs;
+  TextEditingController passwordController = TextEditingController();
+  bool _isNotValidate = false;
+  bool auth = true;
 
   // Future<void> signIn() async {
   //   final response = await http.get(Uri.parse(""));
 
   // }
+
+  void loginUser() async {
+    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+      var reqBody = {
+        "email": emailController.text,
+        "password": passwordController.text
+      };
+
+      var response = await http.post(Uri.parse(login),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(reqBody));
+
+      var jsonResponse = jsonDecode(response.body);
+      // print("__________------__________-------", jsonResponse['status']),
+
+      if (jsonResponse['status']) {
+        // var myToken = jsonResponse['token'];
+        // prefs.setString('token', myToken);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Dashboard()));
+      } else {
+        print("Something went wrong!");
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +76,13 @@ class _SignInPageState extends State<SignInPage> {
           Container(
             width: MediaQuery.of(context).size.width * (0.8),
             child: TextFormField(
-              decoration: const InputDecoration(
+              controller: emailController,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
                 hintText: 'Email',
+                errorText: _isNotValidate ? "Enter a valid Email" : null,
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
@@ -61,9 +94,13 @@ class _SignInPageState extends State<SignInPage> {
           Container(
             width: MediaQuery.of(context).size.width * (0.8),
             child: TextFormField(
-              obscureText: true,
-              decoration: const InputDecoration(
+              controller: passwordController,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
                 hintText: 'Password',
+                errorText: _isNotValidate ? "Enter a proper Password?" : null,
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
@@ -76,8 +113,9 @@ class _SignInPageState extends State<SignInPage> {
             width: MediaQuery.of(context).size.width * 0.8,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const Dashboard()));
+                // Navigator.pushReplacement(context,
+                //     MaterialPageRoute(builder: (context) => const Dashboard()));
+                loginUser();
               },
               child: const Text('Sign In'),
             ),
