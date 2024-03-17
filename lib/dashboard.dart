@@ -5,6 +5,8 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_vision/flutter_vision.dart';
+import 'package:road_safe_app/complaint_status.dart';
+import 'package:road_safe_app/retry_status.dart';
 
 import 'package:road_safe_app/utils/app_drawer.dart';
 import 'package:image_picker/image_picker.dart';
@@ -162,7 +164,23 @@ class _DashboardState extends State<Dashboard> {
       });
     }
 
+    if (result.isNotEmpty) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => complaint_status()),
+      );
+      // Dashboard();
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => retry()),
+      );
+      // retry();
+    }
+
     print(result);
+    print("hello");
+    // print(yoloResults);
     print("this is it");
 
     // await vision.closeYoloModel();
@@ -374,6 +392,19 @@ class _DashboardState extends State<Dashboard> {
                     }
 
                     print('raising complaint');
+      //               if (yoloResults != null) {
+      //                 // complaint_status();
+      //                 Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => complaint_status()),
+      // );
+      //               } else {
+      //                 // retry();
+      //                 Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => retry()),
+      // );
+      //               }
                   },
                 ),
               ),
