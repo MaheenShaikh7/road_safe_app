@@ -46,6 +46,10 @@ class _SignInPageState extends State<SignInPage> {
       } else {
         print("Something went wrong!");
       }
+    } else {
+      setState(() {
+        _isNotValidate = true;
+      });
     }
   }
 
@@ -81,8 +85,10 @@ class _SignInPageState extends State<SignInPage> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                hintText: 'Email',
+                errorStyle:
+                    TextStyle(color: const Color.fromARGB(255, 19, 18, 18)),
                 errorText: _isNotValidate ? "Enter a valid Email" : null,
+                hintText: 'Email',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
@@ -99,8 +105,10 @@ class _SignInPageState extends State<SignInPage> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                hintText: 'Password',
+                errorStyle:
+                    TextStyle(color: const Color.fromARGB(255, 19, 18, 18)),
                 errorText: _isNotValidate ? "Enter a proper Password?" : null,
+                hintText: 'Password',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
               ),

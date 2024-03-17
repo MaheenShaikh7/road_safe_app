@@ -119,6 +119,9 @@ class _SignUpState extends State<SignUp> {
             height: 30,
           ),
           Text("Already have an account?"),
+          const SizedBox(
+            height: 20,
+          ),
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
             child: TextButton(
