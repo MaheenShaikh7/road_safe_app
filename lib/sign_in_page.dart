@@ -30,6 +30,8 @@ class _SignInPageState extends State<SignInPage> {
         "email": emailController.text,
         "password": passwordController.text
       };
+      print(reqBody['email']);
+      print(reqBody['password']);
 
       var response = await http.post(Uri.parse(login),
           headers: {"Content-Type": "application/json"},
