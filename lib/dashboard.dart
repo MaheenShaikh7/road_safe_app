@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -22,6 +23,9 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  TextEditingController problemController = TextEditingController();
+
+
   // Picking Up Image
   File? selectedImage;
 
@@ -31,6 +35,13 @@ class _DashboardState extends State<Dashboard> {
     setState(() {
       selectedImage = File(returnedImage!.path);
     });
+
+    // image controller
+    print(selectedImage);
+
+    // problem descripion
+    print(problemController.text);
+    //
   }
 
   Future pickImageFromCamera() async {
@@ -39,6 +50,10 @@ class _DashboardState extends State<Dashboard> {
     setState(() {
       selectedImage = File(returnedImage!.path);
     });
+
+    // image controller
+    print(selectedImage);
+    //
   }
 
   //gettingLocation
@@ -86,6 +101,10 @@ class _DashboardState extends State<Dashboard> {
         final data = json.decode(response.body);
         setState(() {
           address = data['display_name'];
+
+          // location controller
+          print(address);
+          //
         });
       } else {
         // Handle error
@@ -355,7 +374,10 @@ class _DashboardState extends State<Dashboard> {
                             .where((entry) => entry.value)
                             .map((entry) => entry.key)
                             .toList();
+
+                        // problem category
                         print('Selected Options: $selectedChips');
+                        //
                       },
                     )
                 ],
@@ -365,6 +387,8 @@ class _DashboardState extends State<Dashboard> {
                 width: MediaQuery.of(context).size.width,
                 alignment: Alignment.center,
                 child: TextFormField(
+                  controller: problemController,
+                  keyboardType: TextInputType.text,
                   decoration: const InputDecoration(
                     hintText: 'Problem description (if any)',
                     border: OutlineInputBorder(
@@ -372,6 +396,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
               ),
+
               const SizedBox(height: 10),
 
               Center(
@@ -392,19 +417,19 @@ class _DashboardState extends State<Dashboard> {
                     }
 
                     print('raising complaint');
-      //               if (yoloResults != null) {
-      //                 // complaint_status();
-      //                 Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => complaint_status()),
-      // );
-      //               } else {
-      //                 // retry();
-      //                 Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => retry()),
-      // );
-      //               }
+                    //               if (yoloResults != null) {
+                    //                 // complaint_status();
+                    //                 Navigator.pushReplacement(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => complaint_status()),
+                    // );
+                    //               } else {
+                    //                 // retry();
+                    //                 Navigator.pushReplacement(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => retry()),
+                    // );
+                    //               }
                   },
                 ),
               ),
