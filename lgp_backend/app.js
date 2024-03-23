@@ -1,11 +1,13 @@
 const express = require('express');
 const body_parser = require('body-parser');
-const userRouter = require('./routers/user.router')
+const userRouter = require('./routers/user.router');
+const ComplaintRouter = require('./routers/complaint.router');
 
 const app = express();
 
 app.use(body_parser.json());
 
 app.use('/',userRouter);
+app.use('/',ComplaintRouter);
 
 module.exports = app;
