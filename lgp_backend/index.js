@@ -1,6 +1,7 @@
 const app = require('./app.js');
 const db = require('./config/db');
 const UserModel = require('./model/user.model.js')
+const ComplaintModel = require('./model/complaint.model.js')
 
 const port = 3000;
 
