@@ -18,6 +18,7 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController passwordController = TextEditingController();
   bool _isNotValidate = false;
   bool auth = true;
+  bool reply = false;
 
   // Future<void> signIn() async {
   //   final response = await http.get(Uri.parse(""));
@@ -38,15 +39,19 @@ class _SignInPageState extends State<SignInPage> {
           body: jsonEncode(reqBody));
 
       var jsonResponse = jsonDecode(response.body);
-      // print("__________------__________-------", jsonResponse['status']),
+      print(jsonResponse);
+      print(jsonResponse['status']);
 
-      if (jsonResponse['status']) {
+      if (jsonResponse['status'] != null) {
         // var myToken = jsonResponse['token'];
         // prefs.setString('token', myToken);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Dashboard()));
       } else {
-        print("Something went wrong!");
+        // print("Something went wrong!");
+        setState(() {
+          _isNotValidate = true;
+        });
       }
     } else {
       setState(() {
@@ -86,10 +91,10 @@ class _SignInPageState extends State<SignInPage> {
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: const Color.fromARGB(255, 255, 255, 255),
                 errorStyle:
                     TextStyle(color: const Color.fromARGB(255, 19, 18, 18)),
-                errorText: _isNotValidate ? "Enter a valid Email" : null,
+                errorText: _isNotValidate ? "Enter a valid Email?" : null,
                 hintText: 'Email',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -109,7 +114,7 @@ class _SignInPageState extends State<SignInPage> {
                 fillColor: Colors.white,
                 errorStyle:
                     TextStyle(color: const Color.fromARGB(255, 19, 18, 18)),
-                errorText: _isNotValidate ? "Enter a proper Password?" : null,
+                errorText: _isNotValidate ? "Enter a valid Password?" : null,
                 hintText: 'Password',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -146,7 +151,7 @@ class _SignInPageState extends State<SignInPage> {
               },
               child: const Text("Sign Up"),
             ),
-          )
+          ),
         ],
       )),
     )));
