@@ -25,7 +25,6 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   TextEditingController problemController = TextEditingController();
 
-
   // Picking Up Image
   File? selectedImage;
 
