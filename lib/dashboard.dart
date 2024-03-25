@@ -7,6 +7,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_vision/flutter_vision.dart';
 import 'package:road_safe_app/complaint_status.dart';
+import 'package:road_safe_app/config.dart';
 import 'package:road_safe_app/retry_status.dart';
 
 import 'package:road_safe_app/utils/app_drawer.dart';
@@ -187,6 +188,7 @@ class _DashboardState extends State<Dashboard> {
         context,
         MaterialPageRoute(builder: (context) => complaint_status()),
       );
+      raiseComplaint_();
       // Dashboard();
     } else {
       Navigator.pushReplacement(
@@ -234,6 +236,23 @@ class _DashboardState extends State<Dashboard> {
   //     print("No Object Detected");
   //   }
   // }
+
+  void raiseComplaint_() async {
+    var reqBody = {
+      "userID": "12345",
+      "image": "selectedImage",
+      "location": address,
+      "category": selectedChips,
+      "description": problemController.text
+    };
+
+    var response = await http.post(Uri.parse(complaintDetails),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(reqBody));
+
+    var jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
+  }
 
   @override
   Widget build(BuildContext context) {
