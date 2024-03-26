@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_vision/flutter_vision.dart';
 import 'package:road_safe_app/complaint_status.dart';
 import 'package:road_safe_app/config.dart';
@@ -15,9 +16,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 // import 'package:tflite_v2/tflite_v2.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+  final token;
+  const Dashboard({@required this.token, Key? key}) : super(key: key);
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -134,11 +137,17 @@ class _DashboardState extends State<Dashboard> {
 
   late List<Map<String, dynamic>> yoloResults;
 
+  late String email;
+
   @override
   void initState() {
     super.initState();
     vision = FlutterVision();
     loadModel();
+
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    email = jwtDecodedToken['email'];
+    print(email);
   }
 
   Future loadModel() async {
