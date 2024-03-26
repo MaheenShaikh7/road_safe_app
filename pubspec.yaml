@@ -36,6 +36,8 @@ dependencies:
   image_picker: ^1.0.7
   location: ^5.0.3
   tflite_v2: ^1.0.0
+  shared_preferences:
+  jwt_decoder:  
 
 dev_dependencies:
   flutter_lints: ^2.0.0
