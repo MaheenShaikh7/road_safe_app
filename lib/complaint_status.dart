@@ -25,7 +25,7 @@ class _complaint_statusState extends State<complaint_status> {
             children: [
               Text(
                 "Your Complain has been Successfully raised!",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 25, ),
               ),
               SizedBox(height: 20,),
               Center(
