@@ -4,6 +4,7 @@ import 'package:road_safe_app/dashboard.dart';
 import 'package:road_safe_app/sign_up_page.dart';
 // import 'package:http/http.dart' as http;
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'config.dart';
 
 class SignInPage extends StatefulWidget {
@@ -19,6 +20,17 @@ class _SignInPageState extends State<SignInPage> {
   bool _isNotValidate = false;
   bool auth = true;
   bool reply = false;
+  late SharedPreferences prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
 
   // Future<void> signIn() async {
   //   final response = await http.get(Uri.parse(""));
@@ -43,10 +55,18 @@ class _SignInPageState extends State<SignInPage> {
       print(jsonResponse['status']);
 
       if (jsonResponse['status'] != null) {
-        // var myToken = jsonResponse['token'];
-        // prefs.setString('token', myToken);
+        var myToken = jsonResponse['token'];
+        print("data type of myToken");
+        print(myToken.runtimeType);
+        print(myToken);
+        prefs.setString('token', myToken);
+        // print(myToken);
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Dashboard()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => Dashboard(
+                      token: myToken,
+                    )));
       } else {
         // print("Something went wrong!");
         setState(() {
