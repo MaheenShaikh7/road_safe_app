@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:road_safe_app/dashboard.dart';
 import 'package:road_safe_app/utils/app_drawer.dart';
+import 'global.dart';
 
 class complaint_status extends StatefulWidget {
   const complaint_status({super.key});
@@ -24,10 +25,14 @@ class _complaint_statusState extends State<complaint_status> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Your Complain has been Successfully raised!",
-                style: TextStyle(fontSize: 25, ),
+                "Your Complaint has been raised Successfully!",
+                style: TextStyle(
+                  fontSize: 25,
+                ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Center(
                 child: MaterialButton(
                   color: Colors.amber,
@@ -37,14 +42,24 @@ class _complaint_statusState extends State<complaint_status> {
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('Return to Home', style: TextStyle(fontSize: 20,),),
+                      Text(
+                        'Return to Home',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
                     ],
                   ),
                   onPressed: () {
+                    // var myToken =
+                    //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWY0MWNmYmJjZmQ4YmE2ZTFhNDk0NTkiLCJlbWFpbCI6Inh5ekBnbWFpbC5jb20iLCJpYXQiOjE3MTE1Njg0MTQsImV4cCI6MTcxMTU3MjAxNH0.KuQ1FnATy9iAv4B9NKev9xA8rVuCReEIHn5epXFnmCg";
                     Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => Dashboard()),
-                );
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Dashboard(
+                                token: myToken,
+                              )),
+                    );
 
                     // print('raising complaint');
                   },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:road_safe_app/dashboard.dart';
 import 'package:road_safe_app/utils/app_drawer.dart';
+import 'global.dart';
 
 class retry extends StatefulWidget {
   const retry({super.key});
@@ -43,7 +44,7 @@ class _retryState extends State<retry> {
                   onPressed: () {
                     Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => Dashboard()),
+                  MaterialPageRoute(builder: (context) => Dashboard(token: myToken,)),
                 );
 
                     // print('raising complaint');
