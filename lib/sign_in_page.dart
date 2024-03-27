@@ -6,6 +6,7 @@ import 'package:road_safe_app/sign_up_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'config.dart';
+import 'global.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({super.key});
@@ -21,6 +22,7 @@ class _SignInPageState extends State<SignInPage> {
   bool auth = true;
   bool reply = false;
   late SharedPreferences prefs;
+  // String? myToken;
 
   @override
   void initState() {
@@ -55,11 +57,11 @@ class _SignInPageState extends State<SignInPage> {
       print(jsonResponse['status']);
 
       if (jsonResponse['status'] != null) {
-        var myToken = jsonResponse['token'];
+        myToken = jsonResponse['token'];
         print("data type of myToken");
         print(myToken.runtimeType);
         print(myToken);
-        prefs.setString('token', myToken);
+        prefs.setString('token', myToken!);
         // print(myToken);
         Navigator.push(
             context,
