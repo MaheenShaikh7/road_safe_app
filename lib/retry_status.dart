@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:road_safe_app/dashboard.dart';
 import 'package:road_safe_app/utils/app_drawer.dart';
-import 'global.dart';
+import 'package:flutter/widgets.dart';
+// import 'global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class retry extends StatefulWidget {
   const retry({super.key});
@@ -11,6 +13,19 @@ class retry extends StatefulWidget {
 }
 
 class _retryState extends State<retry> {
+
+  late SharedPreferences prefs;
+
+  @override
+  void initState(){
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +59,7 @@ class _retryState extends State<retry> {
                   onPressed: () {
                     Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => Dashboard(token: myToken,)),
+                  MaterialPageRoute(builder: (context) => Dashboard(token: prefs.getString('token'),)),
                 );
 
                     // print('raising complaint');

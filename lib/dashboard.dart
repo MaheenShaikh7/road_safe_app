@@ -138,6 +138,7 @@ class _DashboardState extends State<Dashboard> {
   late List<Map<String, dynamic>> yoloResults;
 
   late String email;
+  late String Uid;
 
   @override
   void initState() {
@@ -148,6 +149,8 @@ class _DashboardState extends State<Dashboard> {
     Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
     email = jwtDecodedToken['email'];
     print(email);
+    Uid = jwtDecodedToken['_id'];
+    print(Uid);
   }
 
   Future loadModel() async {
@@ -245,10 +248,10 @@ class _DashboardState extends State<Dashboard> {
   //     print("No Object Detected");
   //   }
   // }
-
   void raiseComplaint_() async {
     var reqBody = {
-      "userID": "12345",
+      "userID": Uid,
+      "email": email,
       "image": "selectedImage",
       "location": address,
       "category": selectedChips,

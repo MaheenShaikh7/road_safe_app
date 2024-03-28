@@ -1,16 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:road_safe_app/dashboard.dart';
 import 'package:road_safe_app/utils/app_drawer.dart';
-import 'global.dart';
+// import 'global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class complaint_status extends StatefulWidget {
-  const complaint_status({super.key});
+  // @override
+  // void initState() async {
+  //   // super.initState();
+  //   WidgetsFlutterBinding.ensureInitialized();
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   // var tkn = prefs.getString('token');
+  // }
 
+  
   @override
   State<complaint_status> createState() => _complaint_statusState();
+  // final token;
+  // const complaint_status({@required this.token, Key? key}):super(key: key);
 }
 
 class _complaint_statusState extends State<complaint_status> {
+  late SharedPreferences prefs;
+  // SharedPreferences prefs = SharedPreferences.getInstance();
+
+  // @override
+  
+  // final token;
+  // const _complaint_statusState({
+  //   @required this.token
+  // })
+  @override
+  void initState(){
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +88,7 @@ class _complaint_statusState extends State<complaint_status> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => Dashboard(
-                                token: myToken,
+                                token: prefs.getString('token'),
                               )),
                     );
 
