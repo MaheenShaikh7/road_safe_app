@@ -10,6 +10,11 @@ const complaintSchema = new Schema({
         ref: UserModel.modelName
     },
 
+    email: {
+        type: String,
+        require: true,
+    },
+
     image: {
         type: String,
         required: true,
