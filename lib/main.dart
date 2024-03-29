@@ -4,7 +4,7 @@ import 'package:road_safe_app/dashboard.dart';
 // import 'package:road_safe_app/complaint_status.dart';
 // import 'package:road_safe_app/retry_status.dart';
 import 'package:road_safe_app/sign_in_page.dart';
-import 'package:road_safe_app/dashboard.dart';
+// import 'package:road_safe_app/dashboard.dart';
 // import 'global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

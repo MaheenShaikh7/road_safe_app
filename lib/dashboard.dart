@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:ffi';
-import 'dart:io';
+// import 'dart:ffi';
+import 'dart:io' as io;
 import 'dart:typed_data';
-import 'dart:ui' as ui;
+// import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -30,17 +30,24 @@ class _DashboardState extends State<Dashboard> {
   TextEditingController problemController = TextEditingController();
 
   // Picking Up Image
-  File? selectedImage;
+  io.File? selectedImage;
+
+  late String img64;
 
   Future pickImageFromGallery() async {
     final returnedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
-      selectedImage = File(returnedImage!.path);
+      selectedImage = io.File(returnedImage!.path);
+      // io.File imageFile=selectedImage;
+      final bytes = io.File(returnedImage.path).readAsBytesSync();
+      img64 = base64Encode(bytes);
     });
 
     // image controller
     print(selectedImage);
+    print(img64);
+    print("byte printed");
 
     // problem descripion
     print(problemController.text);
@@ -51,7 +58,7 @@ class _DashboardState extends State<Dashboard> {
     final returnedImage =
         await ImagePicker().pickImage(source: ImageSource.camera);
     setState(() {
-      selectedImage = File(returnedImage!.path);
+      selectedImage = io.File(returnedImage!.path);
     });
 
     // image controller
@@ -165,8 +172,11 @@ class _DashboardState extends State<Dashboard> {
     print('model loaded');
   }
 
-  Future yolov8(File imageFile) async {
+//  Uint8List byte = selectedImage.readAsBytes();
+
+  Future yolov8(io.File imageFile) async {
     Uint8List byte = await imageFile.readAsBytes();
+
     final image = await decodeImageFromList(byte);
     imageHeight = image.height;
     imageWidth = image.width;
@@ -252,7 +262,7 @@ class _DashboardState extends State<Dashboard> {
     var reqBody = {
       "userID": Uid,
       "email": email,
-      "image": "selectedImage",
+      "image": "temp",
       "location": address,
       "category": selectedChips,
       "description": problemController.text
@@ -262,8 +272,19 @@ class _DashboardState extends State<Dashboard> {
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(reqBody));
 
-    var jsonResponse = jsonDecode(response.body);
-    print(jsonResponse);
+    (String filename, String url) async {
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      print("Shadab");
+      print(filename);
+      print("Shadab");
+      request.files.add(http.MultipartFile.fromBytes(
+          'file', io.File(filename).readAsBytesSync(),
+          filename: filename.split("/").last));
+      var res = await request.send();
+      print(res);
+    }(selectedImage!.path, "http://192.168.137.2:5000");
+    //var jsonResponse = jsonDecode(response.body);
+    print(response.body);
   }
 
   @override
@@ -358,8 +379,8 @@ class _DashboardState extends State<Dashboard> {
                           ],
                         ),
                         onPressed: () {
-                          getLocation();
-                          getLocationDetails(latitude, longitude);
+                          // getLocation();
+                          // getLocationDetails(latitude, longitude);
                         }),
                   ),
                 ],

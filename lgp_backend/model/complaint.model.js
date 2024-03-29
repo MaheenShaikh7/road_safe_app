@@ -22,17 +22,17 @@ const complaintSchema = new Schema({
 
     location: {
         type: String,
-        required: true,
+        // required: true,
     },
 
     category: {
         type: Array,
-        require: true,
+        // require: true,
     },
 
     description: {
         type: String,
-        require: true
+        // require: true    
     }
 
 },{timestamps:true});
