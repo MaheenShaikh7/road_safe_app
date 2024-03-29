@@ -13,7 +13,7 @@ void main() async {
   SharedPreferences prefs =
   await SharedPreferences.getInstance(); // use to store data
   runApp(MyApp(
-      token: prefs.getString('token'),
+      // token: prefs.getString('token'),
       ));
 }
 
@@ -31,8 +31,8 @@ class MyApp extends StatelessWidget {
       // home: (tokens != null && JwtDecoder.isExpired(tokens) == false)
       //     ? const Dashboard()
       //     : SignInPage(),
-      home:(JwtDecoder.isExpired(token)==false)?Dashboard(token: token):SignInPage(),
-      // home: retry(),
+      // home:(JwtDecoder.isExpired(token)==false)?Dashboard(token: token):SignInPage(),
+      home: SignInPage(),
     );
   }
 }

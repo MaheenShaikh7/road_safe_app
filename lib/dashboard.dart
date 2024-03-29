@@ -274,9 +274,9 @@ class _DashboardState extends State<Dashboard> {
 
     (String filename, String url) async {
       var request = http.MultipartRequest('POST', Uri.parse(url));
-      print("Shadab");
+      print("abc");
       print(filename);
-      print("Shadab");
+      print("abc");
       request.files.add(http.MultipartFile.fromBytes(
           'file', io.File(filename).readAsBytesSync(),
           filename: filename.split("/").last));
@@ -296,7 +296,7 @@ class _DashboardState extends State<Dashboard> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(6.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,16 +304,16 @@ class _DashboardState extends State<Dashboard> {
               //picking up image
               Row(
                 children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  // const SizedBox(
+                  //   width: 10,
+                  // ),
                   MaterialButton(
                     color: Colors.amber,
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(Icons.image_search_rounded),
-                        SizedBox(width: 8),
+                        SizedBox(width: 4),
                         Text('Choose from gallery'),
                       ],
                     ),
@@ -322,7 +322,7 @@ class _DashboardState extends State<Dashboard> {
                     },
                   ),
                   const SizedBox(
-                    width: 10,
+                    width: 8,
                   ),
                   MaterialButton(
                     color: Colors.amber,
@@ -330,7 +330,7 @@ class _DashboardState extends State<Dashboard> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(Icons.camera_alt),
-                        SizedBox(width: 8),
+                        SizedBox(width: 4),
                         Text('Take a picture'),
                       ],
                     ),
@@ -379,8 +379,8 @@ class _DashboardState extends State<Dashboard> {
                           ],
                         ),
                         onPressed: () {
-                          // getLocation();
-                          // getLocationDetails(latitude, longitude);
+                          getLocation();
+                          getLocationDetails(latitude, longitude);
                         }),
                   ),
                 ],

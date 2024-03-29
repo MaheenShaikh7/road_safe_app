@@ -17,4 +17,4 @@ def ro():
       <p><input type="submit" value="Submit"></p>
     </form>"""
 
-app.run("192.168.137.2",port=5000,debug=True)
+app.run("192.168.24.212",port=5000,debug=True)
