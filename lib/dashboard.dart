@@ -140,7 +140,7 @@ class _DashboardState extends State<Dashboard> {
   late List<Map<String, dynamic>> yoloResults;
 
   late String email;
-  late String Uid;
+  late String uId;
 
   @override
   void initState() {
@@ -151,8 +151,8 @@ class _DashboardState extends State<Dashboard> {
     Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
     email = jwtDecodedToken['email'];
     print(email);
-    Uid = jwtDecodedToken['_id'];
-    print(Uid);
+    uId = jwtDecodedToken['_id'];
+    print(uId);
   }
 
   Future loadModel() async {
@@ -214,7 +214,7 @@ class _DashboardState extends State<Dashboard> {
 
   void raiseComplaint_() async {
     var reqBody = {
-      "userID": Uid,
+      "userID": uId,
       "email": email,
       "image": "temp",
       "location": address,
@@ -237,7 +237,7 @@ class _DashboardState extends State<Dashboard> {
           filename: filename.split("/").last));
       var res = await request.send();
       print(res);
-    }(selectedImage!.path, "http://192.168.24.212:5000/");
+    }(selectedImage!.path, "http://192.168.189.212:5000/");
     print(response.body);
   }
 

@@ -5,7 +5,6 @@ import 'package:road_safe_app/sign_up_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'config.dart';
-import 'global.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({super.key});
@@ -18,10 +17,8 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _isNotValidate = false;
-  bool auth = true;
-  bool reply = false;
   late SharedPreferences prefs;
-  // String? myToken;
+  String? myToken;
 
   @override
   void initState() {

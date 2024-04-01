@@ -12,4 +12,4 @@ def ro(id):
         return jsonify({})
     return id
 
-app.run("192.168.24.212",port=5000,debug=True)
+app.run("192.168.189.212",port=5000,debug=True)
