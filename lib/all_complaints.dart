@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:road_safe_app/utils/app_drawer.dart';
-import 'package:road_safe_app/utils/complaints.dart';
 
 class AllComplaints extends StatefulWidget {
   const AllComplaints({super.key});

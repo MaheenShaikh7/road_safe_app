@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:road_safe_app/dashboard.dart';
 import 'package:road_safe_app/sign_up_page.dart';
-// import 'package:http/http.dart' as http;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'config.dart';
@@ -34,11 +33,6 @@ class _SignInPageState extends State<SignInPage> {
     prefs = await SharedPreferences.getInstance();
   }
 
-  // Future<void> signIn() async {
-  //   final response = await http.get(Uri.parse(""));
-
-  // }
-
   void loginUser() async {
     if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
       var reqBody = {
@@ -62,15 +56,16 @@ class _SignInPageState extends State<SignInPage> {
         print(myToken.runtimeType);
         print(myToken);
         prefs.setString('token', myToken!);
-        // print(myToken);
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => Dashboard(
                       token: myToken,
-                    )));
-      } else {
-        // print("Something went wrong!");
+                    ),
+                    ),
+                    );
+      } 
+      else {
         setState(() {
           _isNotValidate = true;
         });
@@ -96,86 +91,86 @@ class _SignInPageState extends State<SignInPage> {
               tileMode: TileMode.clamp,
               colors: [Colors.blue, Colors.white])),
       child: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            'Sign In',
-            style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * (0.8),
-            child: TextFormField(
-              controller: emailController,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: const Color.fromARGB(255, 255, 255, 255),
-                errorStyle:
-                    TextStyle(color: const Color.fromARGB(255, 19, 18, 18)),
-                errorText: _isNotValidate ? "Enter a valid Email?" : null,
-                hintText: 'Email',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: SingleChildScrollView(
+            child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+            const Text(
+              'Sign In',
+              style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * (0.8),
+              child: TextFormField(
+                controller: emailController,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: const Color.fromARGB(255, 255, 255, 255),
+                  errorStyle:
+                      TextStyle(color: const Color.fromARGB(255, 19, 18, 18)),
+                  errorText: _isNotValidate ? "Enter a valid Email?" : null,
+                  hintText: 'Email',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * (0.8),
-            child: TextFormField(
-              controller: passwordController,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                errorStyle:
-                    TextStyle(color: const Color.fromARGB(255, 19, 18, 18)),
-                errorText: _isNotValidate ? "Enter a valid Password?" : null,
-                hintText: 'Password',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * (0.8),
+              child: TextFormField(
+                controller: passwordController,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  errorStyle:
+                      TextStyle(color: const Color.fromARGB(255, 19, 18, 18)),
+                  errorText: _isNotValidate ? "Enter a valid Password?" : null,
+                  hintText: 'Password',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: ElevatedButton(
-              onPressed: () {
-                // Navigator.pushReplacement(context,
-                //     MaterialPageRoute(builder: (context) => const Dashboard()));
-                loginUser();
-              },
-              child: const Text('Sign In'),
+            const SizedBox(
+              height: 20,
             ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          const Text("Don't have an account?"),
-          const SizedBox(
-            height: 20,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const SignUp()));
-              },
-              child: const Text("Sign Up"),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: ElevatedButton(
+                onPressed: () {
+                  loginUser();
+                },
+                child: const Text('Sign In'),
+              ),
             ),
-          ),
-        ],
-      )),
+            const SizedBox(
+              height: 30,
+            ),
+            const Text("Don't have an account?"),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => const SignUp()));
+                },
+                child: const Text("Sign Up"),
+              ),
+            ),
+                    ],
+                  ),
+          )),
     )));
   }
 }

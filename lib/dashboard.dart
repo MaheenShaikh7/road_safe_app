@@ -1,21 +1,17 @@
 import 'dart:convert';
-// import 'dart:ffi';
 import 'dart:io' as io;
 import 'dart:typed_data';
-// import 'dart:ui' as ui;
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_vision/flutter_vision.dart';
 import 'package:road_safe_app/complaint_status.dart';
 import 'package:road_safe_app/config.dart';
 import 'package:road_safe_app/retry_status.dart';
-
 import 'package:road_safe_app/utils/app_drawer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
-// import 'package:tflite_v2/tflite_v2.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class Dashboard extends StatefulWidget {
@@ -39,7 +35,6 @@ class _DashboardState extends State<Dashboard> {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
       selectedImage = io.File(returnedImage!.path);
-      // io.File imageFile=selectedImage;
       final bytes = io.File(returnedImage.path).readAsBytesSync();
       img64 = base64Encode(bytes);
     });
@@ -118,11 +113,11 @@ class _DashboardState extends State<Dashboard> {
         });
       } else {
         // Handle error
-        print("Error: ${response.statusCode}");
+        print("Error is 1 - location: ${response.statusCode}");
       }
     } catch (e) {
       // Handle network or other errors
-      print("Error: $e");
+      print("Error is 2 - location : $e");
     }
   }
 
@@ -181,12 +176,7 @@ class _DashboardState extends State<Dashboard> {
     imageHeight = image.height;
     imageWidth = image.width;
 
-    // final ui.Codec codec = await ui.instantiateImageCodec(byte);
-    // final ui.FrameInfo frameInfo = await codec.getNextFrame();
-
-    print(byte);
-    // print(frameInfo.image.height);
-    // print(frameInfo.image.width);
+    // print(byte);
 
     print(imageHeight);
     print(imageWidth);
@@ -211,53 +201,17 @@ class _DashboardState extends State<Dashboard> {
         MaterialPageRoute(builder: (context) => complaint_status()),
       );
       raiseComplaint_();
-      // Dashboard();
     } else {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => retry()),
       );
-      // retry();
     }
 
     print(result);
-    print("hello");
-    // print(yoloResults);
-    print("this is it");
-
-    // await vision.closeYoloModel();
+    print("Verification done !");
   }
 
-  // Future loadModel() async {
-  //   Tflite.close();
-  //   String? res = await Tflite.loadModel(
-  //     model: "assets/multi_detection/best_float32.tflite",
-  //     labels: "assets/multi_detection/labels.txt",
-  //     // useGpuDelegate: true,
-  //   );
-
-  //   print('$res model loaded');
-  // }
-
-  // Future yolov8(File image) async {
-  //   var recognitions = await Tflite.detectObjectOnImage(
-  //     path: image.path,
-  //     model: "YOLO",
-  //     threshold: 0.3,
-  //     imageMean: 0.0,
-  //     imageStd: 255.0,
-  //     numResultsPerClass: 1,
-  //   );
-
-  //   if (recognitions != null) {
-  //     print("Object Detected");
-  //     print("Recognitions Shape: ${recognitions.length}");
-  //     print(
-  //         "First Recognition: ${recognitions.isNotEmpty ? recognitions[0] : null}");
-  //   } else {
-  //     print("No Object Detected");
-  //   }
-  // }
   void raiseComplaint_() async {
     var reqBody = {
       "userID": Uid,
@@ -274,6 +228,7 @@ class _DashboardState extends State<Dashboard> {
 
     (String filename, String url) async {
       var request = http.MultipartRequest('POST', Uri.parse(url));
+      Random random = new Random();
       print("abc");
       print(filename);
       print("abc");
@@ -282,8 +237,7 @@ class _DashboardState extends State<Dashboard> {
           filename: filename.split("/").last));
       var res = await request.send();
       print(res);
-    }(selectedImage!.path, "http://192.168.137.2:5000");
-    //var jsonResponse = jsonDecode(response.body);
+    }(selectedImage!.path, "http://192.168.24.212:5000/");
     print(response.body);
   }
 
@@ -304,9 +258,6 @@ class _DashboardState extends State<Dashboard> {
               //picking up image
               Row(
                 children: [
-                  // const SizedBox(
-                  //   width: 10,
-                  // ),
                   MaterialButton(
                     color: Colors.amber,
                     child: const Row(
@@ -341,6 +292,7 @@ class _DashboardState extends State<Dashboard> {
                 ],
               ),
 
+              // displaying the selected image
               selectedImage != null
                   ? Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -363,11 +315,12 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ),
                     ),
+
               //Adding Location
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(7.0),
+                    padding: const EdgeInsets.all(4.0),
                     child: MaterialButton(
                         color: Colors.amber,
                         child: const Row(
@@ -385,28 +338,37 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ],
               ),
+
+              const SizedBox(
+                height: 5,
+              ),
+
               Wrap(children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 6.8),
+                  padding: const EdgeInsets.only(left: 4),
                   child: Text(
                     address,
                     style: const TextStyle(fontSize: 18),
                   ),
                 ),
               ]),
+
               const SizedBox(
-                height: 10,
+                height: 5,
               ),
+
               const Padding(
-                padding: EdgeInsets.only(left: 8.0),
+                padding: EdgeInsets.only(left: 4.0),
                 child: Text("Problem Description (if Any)",
                     style: TextStyle(
                       fontSize: 20,
                     )),
               ),
+
               const SizedBox(
                 height: 8,
               ),
+
               Wrap(
                 alignment: WrapAlignment.start,
                 crossAxisAlignment: WrapCrossAlignment.start,
@@ -433,7 +395,10 @@ class _DashboardState extends State<Dashboard> {
                     )
                 ],
               ),
-              const SizedBox(height: 10),
+
+              const SizedBox(
+                height: 10),
+
               Container(
                 width: MediaQuery.of(context).size.width,
                 alignment: Alignment.center,
@@ -448,7 +413,8 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(
+                height: 10),
 
               Center(
                 child: MaterialButton(
@@ -467,20 +433,7 @@ class _DashboardState extends State<Dashboard> {
                       yolov8(selectedImage!);
                     }
 
-                    print('raising complaint');
-                    //               if (yoloResults != null) {
-                    //                 // complaint_status();
-                    //                 Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => complaint_status()),
-                    // );
-                    //               } else {
-                    //                 // retry();
-                    //                 Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => retry()),
-                    // );
-                    //               }
+                    print('raising complaint');             
                   },
                 ),
               ),

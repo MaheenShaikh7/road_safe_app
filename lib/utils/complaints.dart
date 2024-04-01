@@ -21,17 +21,17 @@ class _ComplaintState extends State<Complaint> {
         body: Column(
       children: [
         Text("Id : ${widget.id}"),
-        // SizedBox(
-        //   height: 10,
-        // ),
+        const SizedBox(
+          height: 10,
+        ),
         Text("Status : ${widget.status}"),
-        // SizedBox(
-        //   height: 10,
-        // ),
+        const SizedBox(
+          height: 10,
+        ),
         Text("location : ${widget.location}"),
-        // SizedBox(
-        //   height: 10,
-        // ),
+        const SizedBox(
+          height: 10,
+        ),
       ],
     ));
   }

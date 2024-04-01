@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:road_safe_app/all_complaints.dart';
 import 'package:road_safe_app/dashboard.dart';
 import 'package:road_safe_app/sign_in_page.dart';
-// import 'package:road_safe_app/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/widgets.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});

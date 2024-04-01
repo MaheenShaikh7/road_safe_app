@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:road_safe_app/dashboard.dart';
 import 'package:road_safe_app/utils/app_drawer.dart';
 import 'package:flutter/widgets.dart';
-// import 'global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class retry extends StatefulWidget {
@@ -61,9 +60,7 @@ class _retryState extends State<retry> {
                   context,
                   MaterialPageRoute(builder: (context) => Dashboard(token: prefs.getString('token'),)),
                 );
-
-                    // print('raising complaint');
-                  },
+                },
                 ),
               ),
             ],
