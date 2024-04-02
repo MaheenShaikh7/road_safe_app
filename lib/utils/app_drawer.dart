@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:road_safe_app/all_complaints.dart';
 import 'package:road_safe_app/dashboard.dart';
 import 'package:road_safe_app/sign_in_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
@@ -11,6 +12,18 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
+  late SharedPreferences prefs;
+
+  @override
+  void initState(){
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
   int selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -45,7 +58,7 @@ class _AppDrawerState extends State<AppDrawer> {
               Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const Dashboard()),
+                MaterialPageRoute(builder: (context) => Dashboard(token: prefs.getString('token'),)),
               );
             },
           ),
